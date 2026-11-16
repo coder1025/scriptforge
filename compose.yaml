@@ -1,0 +1,29 @@
+services:
+  scriptforge:
+    build: .
+    ports:
+      - "127.0.0.1:${PORT:-8080}:8080"
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      PORT: 8080
+      SERVER_FORWARD_HEADERS_STRATEGY: ${SERVER_FORWARD_HEADERS_STRATEGY:-none}
+      SCRIPT_FORGE_DATA_DIR: /app/data
+      SCRIPT_FORGE_MODE: ${SCRIPT_FORGE_MODE:-DEMO}
+      READ_ONLY: ${READ_ONLY:-false}
+      MODEL_BASE_URL: ${MODEL_BASE_URL:-https://api.openai.com/v1}
+      MODEL_NAME: ${MODEL_NAME:-}
+      MODEL_API_KEY: ${MODEL_API_KEY:-}
+      MODEL_TIMEOUT_SECONDS: ${MODEL_TIMEOUT_SECONDS:-60}
+      MODEL_MAX_OUTPUT_TOKENS: ${MODEL_MAX_OUTPUT_TOKENS:-4096}
+      AGENT_INPUT_BUDGET: ${AGENT_INPUT_BUDGET:-24000}
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-}
+    volumes:
+      - scriptforge-data:/app/data
+    restart: unless-stopped
+    init: true
+    stop_grace_period: 75s
+    mem_limit: 1g
+
+volumes:
+  scriptforge-data:
+

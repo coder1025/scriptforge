@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="ScriptForge：一个可追溯、可审稿、可恢复的 Java 双 Agent 脚本创作工作室。">
+<meta name="theme-color" content="#172b2b"><title>ScriptForge · 脚本创作工作室</title>
+<link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css"><script src="./app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">跳转到工作区</a>
+<div class="app-shell">
+<aside class="sidebar">
+  <a class="brand" href="./" aria-label="ScriptForge 首页"><span class="brand-mark">S<span>f</span></span><span>ScriptForge<small>把创作变成可检验的过程</small></span></a>
+  <div class="workspace-label">WORKSPACE <span>01</span></div>
+  <button id="new-task" class="new-button"><span>＋</span> 新建创作任务 <kbd>N</kbd></button>
+  <div class="sidebar-caption">创作任务 <span id="task-count">0</span></div>
+  <nav id="task-list" class="task-list" aria-label="创作任务"></nav>
+  <div class="sidebar-bottom">
+    <button id="templates-button" class="sidebar-link"><span>▤</span> Prompt 模板库 <span>↗</span></button>
+    <button id="about-button" class="sidebar-link"><span>⌘</span> 项目设计与运行方式 <span>↗</span></button>
+    <div class="server-state"><span class="status-dot"></span><span id="connection-state">正在连接工作区</span><span class="version">v0.1</span></div>
+  </div>
+</aside>
+<main id="main" class="main">
+  <header class="topbar"><div class="breadcrumbs">工作区 <span>/</span> <strong>创作工作室</strong></div><div class="topbar-right"><span id="mode-pill" class="pill">连接中</span><button id="mobile-templates" class="icon-button mobile-icon" title="Prompt 模板库" aria-label="Prompt 模板库">▤</button><button id="mobile-about" class="icon-button mobile-icon" title="项目设计" aria-label="项目设计">⌘</button><button id="settings-button" class="icon-button" title="连接设置" aria-label="连接设置">⚙</button><span class="avatar">SF</span></div></header>
+  <div class="workspace">
+    <div id="mode-notice" class="notice" hidden></div>
+    <div class="page-heading"><div><div class="eyebrow">WRITE. REVIEW. REFINE.</div><h1>好脚本，经得起审阅<span>。</span></h1><p>让创作有方向，让修改有依据，让每一步都可追溯。</p></div><div class="heading-stamp"><span>01 / 02</span><strong>Writer <i>×</i> Reviewer</strong><small>独立上下文 · 共享事实</small></div></div>
+    <div id="empty-state" class="empty-state" hidden><span class="empty-icon">✦</span><h2>从一个清晰的创作目标开始</h2><p>提供事实和约束，让 Writer 起稿、Reviewer 查证，再由宿主核对交付条件。</p><button id="empty-create" class="primary">创建第一份脚本 <span>↗</span></button></div>
+    <section id="task-workspace" hidden>
+      <div class="task-heading"><div><div class="eyebrow task-eyebrow">CURRENT PROJECT</div><h2 id="task-title"></h2><div class="task-meta"><span id="task-status" class="status-label"></span><span id="task-time"></span><span id="task-language"></span></div></div><div class="actions"><button id="resume-button" class="secondary" hidden>继续执行</button><button id="cancel-button" class="secondary" hidden>停止任务</button><button id="export-button" class="primary">导出稿件 <span>↗</span></button></div></div>
+      <div id="task-error" class="error-panel" hidden></div>
+      <div id="replay-controls" class="replay-controls" hidden><div><span class="live-dot"></span><strong>过程回放</strong><span id="replay-caption">从计划开始，观察一次完整的审稿修订。</span></div><div class="replay-buttons"><button id="replay-reset" class="text-button" title="重新开始">↺ 重置</button><button id="replay-next" class="secondary">下一步</button><button id="replay-play" class="primary">▶ 播放流程</button></div></div>
+      <div class="stats-grid"><div class="stat"><span>稿件版本</span><strong id="stat-version">—</strong><small>不可变版本，可追溯修改</small></div><div class="stat"><span>审稿轮次</span><strong id="stat-reviews">—</strong><small>独立检查，按证据修订</small></div><div class="stat"><span>调用预算</span><strong id="stat-calls">—</strong><div class="mini-meter"><i id="calls-meter"></i></div></div><div class="stat"><span>Token 用量 <em id="token-kind">估算</em></span><strong id="stat-tokens">—</strong><div class="mini-meter"><i id="tokens-meter"></i></div></div></div>
+      <div class="studio-grid">
+        <section class="panel document-panel"><div class="panel-heading"><div class="panel-title"><span class="section-marker">A</span><h3>稿件工作区</h3></div><div id="document-tabs" class="tabs" role="tablist" aria-label="稿件视图"><button class="active" role="tab" aria-selected="true" data-document-tab="draft">正文</button><button role="tab" aria-selected="false" data-document-tab="plan">计划</button><button role="tab" aria-selected="false" data-document-tab="diff">版本对比</button><button role="tab" aria-selected="false" data-document-tab="brief">任务资料</button></div></div><div id="document-content" class="document-content"></div><div class="document-footer"><span id="draft-footnote">正式内容仅在工具成功保存后形成版本。</span><span class="monospace" id="draft-hash"></span></div></section>
+        <section class="panel inspector-panel"><div class="panel-heading"><div class="panel-title"><span class="section-marker">B</span><h3>Agent 观察台</h3></div><span class="small-label">LIVE TRACE</span></div><div id="inspector-tabs" class="inspector-tabs tabs" role="tablist" aria-label="观察台视图"><button class="active" role="tab" aria-selected="true" data-inspector-tab="trace">执行过程</button><button role="tab" aria-selected="false" data-inspector-tab="review">审稿报告</button><button role="tab" aria-selected="false" data-inspector-tab="context">上下文</button></div><div id="inspector-content" class="inspector-content"></div></section>
+      </div>
+      <div class="principles"><span><i>01</i> 原始事实优先</span><span><i>02</i> 审稿只读正文</span><span><i>03</i> 交付由代码校验</span><span class="principles-note">作品质量需要真实模型评测与人工复核</span></div>
+    </section>
+    <footer class="page-footer"><span>ScriptForge <span class="footer-dot">/</span> Open-source Agent Studio</span><span>Built with Java. Designed for clarity.</span></footer>
+  </div>
+</main>
+</div>
+<dialog id="task-dialog" class="modal"><form id="task-form"><div class="modal-heading"><div><span class="eyebrow">NEW CREATIVE BRIEF</span><h2>让下一份脚本有据可依</h2></div><button type="button" class="close-button" data-close="task-dialog" aria-label="关闭">×</button></div><p id="create-mode-note" class="modal-note"></p><div class="form-grid"><label class="full">任务名称<input name="title" maxlength="160" required value="折叠收纳盒 · 春日整理"></label><label class="full">创作目标<textarea name="brief" rows="3" maxlength="6000" required>为折叠收纳盒创作一段自然的中文直播口播。围绕居家整理、闲置收纳和日常移动展开，不使用夸张承诺。</textarea></label><label>目标时长（秒）<input type="number" name="targetSeconds" min="30" max="1800" value="90" required></label><label>语言<select name="language"><option value="zh-CN">中文 · 简体</option value="en">English</option></select></label><label class="full">事实资料 <span class="field-hint">一行一条，支持「事实 | 来源」</span><textarea name="facts" rows="4" required>收纳盒可折叠，闲置时能收起。 | 产品说明（虚构样例）
+盒体带两侧提手，方便双手搬动。 | 产品说明（虚构样例）
+适合分类收纳衣物与日常杂物。 | 产品说明（虚构样例）</textarea></label><label class="full">写作约束 <span class="field-hint">一行一条</span><textarea name="constraints" rows="2">不编造价格促销和承重数据。
+不出现绝对化承诺；避免机械重复。</textarea></label><label class="full">Prompt 模板<select name="templateId" id="template-select"><option value="">使用默认创作规则</option></select></label><details class="full advanced"><summary>运行预算</summary><div class="form-grid"><label>最多模型调用<input name="maxModelCalls" type="number" min="10" max="200" value="40"></label><label>Token 总预算<input name="maxTokens" type="number" min="50000" max="2000000" step="10000" value="400000"></label></div></details></div><p id="create-error" class="form-error" role="alert" hidden></p><div class="modal-footer"><span>输入会成为此次任务的固定快照</span><button type="submit" class="primary" id="create-submit">创建并开始 <span>↗</span></button></div></form></dialog>
+<dialog id="templates-dialog" class="modal"><div class="modal-heading"><div><span class="eyebrow">PROMPT LIBRARY</span><h2>把创作经验，沉淀成模板</h2></div><button class="close-button" data-close="templates-dialog" aria-label="关闭">×</button></div><div id="template-list"></div><form id="template-form"><label>模板名称<input name="name" required maxlength="100" placeholder="例如：生活场景讲解"></label><label>创作指引<textarea name="instructions" required maxlength="6000" rows="5" placeholder="描述受众、叙述方式、段落节奏与禁用表达…"></textarea></label><p class="modal-note">保存相同名称会新增版本。既有任务使用创建时的模板快照。</p><button class="primary" type="submit">保存新版本</button></form><p id="template-error" class="form-error" role="alert" hidden></p></dialog>
+<dialog id="about-dialog" class="modal"><div class="modal-heading"><div><span class="eyebrow">UNDER THE HOOD</span><h2>一套可检查的创作系统</h2></div><button class="close-button" data-close="about-dialog" aria-label="关闭">×</button></div><div class="about-flow"><span>需求与事实</span><i>↓</i><span>Writer · 计划与修改</span><i>↓</i><span>Reviewer · 查证与审稿</span><i>↓</i><span>Java 宿主 · 核对版本与覆盖</span></div><p>Writer 与 Reviewer 拥有独立工具权限和上下文。宿主持久化每次执行、稿件版本、审稿证据与检查点，控制预算、等待和恢复。</p><p>页面里的「固定样例回放」展示预先设计的流程；本地 DEMO 模式使用确定性模型替身运行真实后端；MODEL 模式才会请求你配置的模型。三者不混淆。</p><p>从项目根目录运行 <code>mvn spring-boot:run</code> 即可体验后端。真实模型的配置、Docker 部署与工程边界见仓库 README。</p><p class="modal-note">当前版本面向单机、有限长度的任务。没有承诺语义零错误、24 小时长稿或生产级多租户能力。</p></dialog>
+<dialog id="settings-dialog" class="modal small-modal"><form id="settings-form"><div class="modal-heading"><div><span class="eyebrow">CONNECTION</span><h2>工作区连接</h2></div><button type="button" class="close-button" data-close="settings-dialog" aria-label="关闭">×</button></div><p>如果后端设置了管理令牌，在这里填写。只存于本标签页的会话存储，不写入 URL。</p><label>管理令牌<input type="password" name="token" autocomplete="off" placeholder="未设置令牌可留空"></label><p class="modal-note">这是工作区访问令牌。模型 API Key 仅在服务端环境变量中配置。</p><button class="primary" type="submit">保存并重新连接</button></form></dialog>
+<div id="toast" role="status" class="toast" hidden></div>
+</body></html>

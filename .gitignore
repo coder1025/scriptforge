@@ -1,0 +1,26 @@
+# Build and IDE
+/target/
+/.idea/
+/.vscode/
+*.iml
+.DS_Store
+
+# Local state, credentials, traces
+/data/
+/.env
+/.env.*
+!/.env.example
+*.log
+*.mv.db
+*.trace.db
+*.h2.db
+*.pem
+*.key
+
+# Generated previews and distribution artifacts
+/dist/
+/playwright-report/
+/test-results/
+/node_modules/
+*.zip
+

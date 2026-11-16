@@ -1,0 +1,38 @@
+server:
+  address: ${SERVER_ADDRESS:127.0.0.1}
+  port: ${PORT:8080}
+  error:
+    include-message: never
+  tomcat:
+    max-http-form-post-size: 1MB
+spring:
+  application:
+    name: scriptforge
+  datasource:
+    url: jdbc:h2:file:${SCRIPT_FORGE_DATA_DIR:./data}/scriptforge;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: ${DATABASE_PASSWORD:}
+    hikari:
+      maximum-pool-size: 6
+  flyway:
+    enabled: true
+  jackson:
+    default-property-inclusion: always
+  mvc:
+    async:
+      request-timeout: 5000
+scriptforge:
+  mode: ${SCRIPT_FORGE_MODE:DEMO}
+  read-only: ${READ_ONLY:false}
+  admin-token: ${ADMIN_TOKEN:}
+  model-base-url: ${MODEL_BASE_URL:https://api.openai.com/v1}
+  model-api-key: ${MODEL_API_KEY:}
+  model-name: ${MODEL_NAME:}
+  model-timeout-seconds: ${MODEL_TIMEOUT_SECONDS:60}
+  max-output-tokens: ${MODEL_MAX_OUTPUT_TOKENS:4096}
+  input-budget: ${AGENT_INPUT_BUDGET:24000}
+  scheduler-enabled: ${AGENT_SCHEDULER_ENABLED:true}
+logging:
+  level:
+    dev.scriptforge: INFO
+    org.springframework.jdbc: WARN
