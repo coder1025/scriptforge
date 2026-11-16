@@ -2,7 +2,7 @@
 
 **让长篇口播稿的创作、审稿与修订过程可以追溯。**
 
-[English](README.en.md)
+[在线演示](https://coder1025.github.io/scriptforge/?demo=1) · [GitHub 仓库](https://github.com/coder1025/scriptforge) · [自动化检查](https://github.com/coder1025/scriptforge/actions/workflows/ci.yml) · [English](README.en.md)
 
 ScriptForge 是一套独立实现的 Java 双 Agent 创作系统：Writer 规划和写稿，Reviewer 独立读取原文、检查依据、审阅衔接并提出修订，Java 宿主负责版本、权限、持久化、预算及最终交付。
 

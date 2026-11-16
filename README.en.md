@@ -2,7 +2,7 @@
 
 **Inspectable writing and autonomous review agents, powered by a durable Java runtime.**
 
-[中文说明](README.md)
+[Live demo](https://coder1025.github.io/scriptforge/?demo=1) · [Source](https://github.com/coder1025/scriptforge) · [CI](https://github.com/coder1025/scriptforge/actions/workflows/ci.yml) · [中文说明](README.md)
 
 ScriptForge separates creative decisions from execution guarantees. A Writer plans and edits scripts; an independent Reviewer reads frozen drafts, checks evidence and returns actionable issues. The Java host owns permissions, revisions, persistence, budgets and the final delivery gate.
 

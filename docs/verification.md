@@ -1,4 +1,4 @@
-# v0.1.0 本地验证记录
+# v0.1.0 验证与发布记录
 
 日期：2026-11-16。此记录区分工程机制验证与真实模型质量评测。
 
@@ -27,11 +27,18 @@ Java 源码采用 Google Java Format；前端 `node --check`、Compose 配置解
 
 上述调用使用固定替身，不能据此推导真实模型的质量、费用、速度或成功率。
 
+## 公开发布与浏览器验收
+
+- [公开源码](https://github.com/coder1025/scriptforge)已发布，首个实现提交为 `a1db397`。
+- [GitHub Actions CI](https://github.com/coder1025/scriptforge/actions/runs/43850886367)通过：Java 格式检查、22 项测试、前端语法检查、实际 JAR 的 HTTP 冒烟检查及测试报告/JAR 上传均成功。
+- [GitHub Pages 发布任务](https://github.com/coder1025/scriptforge/actions/runs/43851225455)成功；[在线演示](https://coder1025.github.io/scriptforge/?demo=1)可以公开访问。
+- 在桌面 Chrome 中查看实际线上页面及截图，验证重置、下一步和自动播放最终到达 v4；切换版本对比与审稿报告，确认显示删除无依据承重声明、3/3 段落及 2/2 关系覆盖。
+- 线上页面为静态固定样例回放，不运行 Java 服务、不发起真实模型请求。上述浏览器验收不等于跨浏览器、移动端或真实模型模式的完整验收。
+
 ## 尚未验证
 
 - 未使用付费模型密钥；真实供应商的模型兼容性与内容质量需要按 `docs/evaluation.md` 实测。
-- 未实际部署 GitHub Actions / GitHub Pages，也未完成 Docker 镜像启动验证。
-- 当前会话浏览器访问不可用；前端完成语法、静态结构与接口验证，尚未做浏览器截图与交互验收。
+- 未完成 Docker 镜像构建与启动验证。
 - 首版不包含24小时跨任务编排、多人隔离、分布式集群、TTS时长测量或数字人开播接入。
 
 这些边界应与 README 和演示中的标记保持一致。
